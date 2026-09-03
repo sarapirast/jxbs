@@ -1,0 +1,24 @@
+.env
+*service-account*.json
+*credentials*.json
+
+# Python
+venv/
+__pycache__/
+*.pyc
+*.egg-info/
+
+# Node / Next.js
+node_modules/
+.next/
+out/
+
+# Generated data artifacts
+data/faiss.index
+data/faiss_ids.json
+data/bm25.pkl
+data/postgres_dump.sql
+
+# OS cruft
+.DS_Store
+Thumbs.db
