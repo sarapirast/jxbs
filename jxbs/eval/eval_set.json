@@ -1,0 +1,85 @@
+[
+  {
+    "query": "ML engineer role at a well-known consumer tech company",
+    "relevant_job_ids": [
+      "li_2630789864"
+    ]
+  },
+  {
+    "query": "cybersecurity-focused data science role",
+    "relevant_job_ids": [
+      "li_2685912277"
+    ]
+  },
+  {
+    "query": "new grad software engineer at a fintech company",
+    "relevant_job_ids": [
+      "li_2671451423",
+      "li_2688446359"
+    ]
+  },
+  {
+    "query": "entry level data analyst job",
+    "relevant_job_ids": [
+      "li_2662829082",
+      "li_2756909922"
+    ]
+  },
+  {
+    "query": "site reliability engineer",
+    "relevant_job_ids": [
+      "li_2687833125",
+      "li_2669719919"
+    ]
+  },
+  {
+    "query": "remote backend role using Python",
+    "relevant_job_ids": [
+      "li_2657352354",
+      "li_2650903947"
+    ]
+  },
+  {
+    "query": "software engineering job for someone just graduating college",
+    "relevant_job_ids": [
+      "li_2688446359",
+      "li_2748657301",
+      "li_2699928009",
+      "li_2671451423"
+    ]
+  },
+  {
+    "query": "senior frontend engineering position",
+    "relevant_job_ids": [
+      "li_2657993307",
+      "li_2665835604",
+      "li_2665833935",
+      "li_2665834834"
+    ]
+  },
+  {
+     "query": "job in Germany",
+    "relevant_job_ids": [
+      "li_2686101836"
+    ]
+  },
+  {
+    "query": "junior software developer role",
+    "relevant_job_ids": [
+      "li_2689588019",
+      "li_2645074973",
+      "li_2672241288",
+      "li_2689589135",
+      "li_2655448039"
+    ]
+  },
+  {
+    "query": "data analyst position",
+    "relevant_job_ids": [
+      "li_2686933134",
+      "li_2742698545",
+      "li_2691259982",
+      "li_2712487345"
+    ]
+  }
+]

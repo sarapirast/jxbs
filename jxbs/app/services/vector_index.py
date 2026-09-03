@@ -1,13 +1,8 @@
 """
-FAISS vector index for job description embeddings.
-
+FAISS vector index for job description embeddings
 Design: IndexIDMap wrapping IndexFlatIP (inner product). Embeddings are
-normalized at encode time.
-
-FAISS ids must be int64. Job ids are strings (f"{source}:{source_job_id}"),
-so we derive a deterministic int64 id from a hash of the string, and keep
-a small sidecar JSON mapping int_id -> job_id so search results can be
-resolved back to real jobs.
+normalized at encode time, so inner product == cosine
+similarity. FAISS ids must be int64.
 """
 import hashlib
 import json
@@ -15,8 +10,7 @@ import os
 import faiss
 import numpy as np
 
-EMBEDDING_DIM = 384
-
+EMBEDDING_DIM = 768
 
 def _stable_id(job_id: str) -> int:
     """Deterministic string -> positive int64, so re-ingesting the same

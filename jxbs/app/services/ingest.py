@@ -7,6 +7,7 @@ from ..sources.base import NormalizedJob
 from ..models.job import Job
 from .embeddings import embed_batch
 from .vector_index import get_index
+from .bm25_index import get_bm25_index
 
 
 def _normalize_key(title: str, company: str, location: str | None) -> str:
@@ -21,11 +22,9 @@ def _normalize_key(title: str, company: str, location: str | None) -> str:
 def run_ingest(db: Session, queries: list[str], locations: list[str], max_results_per_query: int = 25) -> dict:
     """
     Pulls postings for every (query, location) pair from every configured
-    source, deduplicates (both within this run and against what's already
-    in the DB), embeds new descriptions, and upserts.
+    source, deduplicates, embeds new descriptions, and upserts.
 
-    Returns a summary dict — this is what the POST /ingest endpoint returns
-    to whoever (or whatever schedule) triggered it.
+    Returns a summary dict
     """
     sources = get_active_sources()
     if not sources:
@@ -88,6 +87,12 @@ def run_ingest(db: Session, queries: list[str], locations: list[str], max_result
     db.commit()
 
     get_index().add(row_ids, embeddings)
+
+    all_jobs = db.query(Job.id, Job.description).all()
+    get_bm25_index().rebuild(
+        job_ids=[j.id for j in all_jobs],
+        texts=[j.description for j in all_jobs],
+    )
 
     return {
         "fetched": len(fetched),
