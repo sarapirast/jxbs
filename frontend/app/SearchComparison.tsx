@@ -27,6 +27,38 @@ export default function SearchComparison() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const [resumeFile, setResumeFile] = useState<File | null>(null);
+  const [resumeSkills, setResumeSkills] = useState<string[] | null>(null);
+  const [resumeResults, setResumeResults] = useState<JobResult[] | null>(null);
+  const [resumeLoading, setResumeLoading] = useState(false);
+  const [resumeError, setResumeError] = useState<string | null>(null);
+
+  async function runResumeMatch(e: React.FormEvent) {
+    e.preventDefault();
+    if (!resumeFile) return;
+
+    setResumeLoading(true);
+    setResumeError(null);
+    try {
+      const formData = new FormData();
+      formData.append('file', resumeFile);
+      const res = await fetch(`${API_BASE}/match-resume`, { method: 'POST', body: formData });
+      if (!res.ok) {
+        const body = await res.json().catch(() => null);
+        throw new Error(body?.detail ?? 'Resume matching failed');
+      }
+      const data = await res.json();
+      setResumeSkills(data.skills_detected ?? []);
+      setResumeResults(data.results ?? []);
+    } catch (err) {
+      setResumeError(err instanceof Error ? err.message : 'Could not process this resume.');
+      setResumeSkills(null);
+      setResumeResults(null);
+    } finally {
+      setResumeLoading(false);
+    }
+  }
+
   async function runSearch(e: React.FormEvent) {
     e.preventDefault();
     const trimmed = query.trim();
@@ -101,6 +133,61 @@ export default function SearchComparison() {
             />
           </div>
         )}
+
+        <div className={styles.divider} />
+
+        <section className={styles.resumeSection}>
+          <h2 className={styles.resumeHeading}>Or match by resume</h2>
+          <p className={styles.subtitle}>
+            Upload a PDF resume — skills are detected automatically and used to find matching
+            jobs, no query needed.
+          </p>
+
+          <form onSubmit={runResumeMatch} className={styles.resumeForm}>
+            <input
+              type="file"
+              accept="application/pdf"
+              onChange={(e) => setResumeFile(e.target.files?.[0] ?? null)}
+              className={styles.fileInput}
+              aria-label="Upload resume PDF"
+            />
+            <button
+              type="submit"
+              className={styles.searchButton}
+              disabled={resumeLoading || !resumeFile}
+            >
+              {resumeLoading ? 'Matching…' : 'Find matches'}
+            </button>
+          </form>
+
+          {resumeError && <p className={styles.error}>{resumeError}</p>}
+
+          {resumeSkills && (
+            <div className={styles.skillsRow}>
+              {resumeSkills.length === 0 ? (
+                <p className={styles.empty}>No known skills detected in this resume.</p>
+              ) : (
+                resumeSkills.map((skill) => (
+                  <span key={skill} className={styles.skillPill}>
+                    {skill}
+                  </span>
+                ))
+              )}
+            </div>
+          )}
+
+          {resumeResults && resumeResults.length > 0 && (
+            <div className={styles.resumeResultsWrap}>
+              <ResultColumn
+                label="Matched jobs"
+                results={resumeResults}
+                otherIds={new Set()}
+                accent
+                showExclusiveTag={false}
+              />
+            </div>
+          )}
+        </section>
       </main>
     </>
   );
@@ -111,11 +198,13 @@ function ResultColumn({
   results,
   otherIds,
   accent,
+  showExclusiveTag = true,
 }: {
   label: string;
   results: JobResult[];
   otherIds: Set<string>;
   accent?: boolean;
+  showExclusiveTag?: boolean;
 }) {
   return (
     <section className={styles.column}>
@@ -136,7 +225,7 @@ function ResultColumn({
                   ) : (
                     <span className={styles.resultTitle}>{r.title}</span>
                   )}
-                  {!otherIds.has(r.id) && (
+                  {showExclusiveTag && !otherIds.has(r.id) && (
                     <span className={styles.exclusiveTag} title="Not found by the other ranker">
                       only here
                     </span>

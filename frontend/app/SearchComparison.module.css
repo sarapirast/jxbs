@@ -188,3 +188,59 @@ a.resultTitle:hover {
   flex-shrink: 0;
   padding-top: 0.2rem;
 }
+
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 3.5rem 0 2.5rem;
+}
+
+.resumeSection {
+  text-align: center;
+}
+
+.resumeHeading {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin: 0 0 0.5rem;
+}
+
+.resumeForm {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.fileInput {
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  color: var(--ink);
+}
+
+.skillsRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.skillPill {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--navy);
+  background: #e6eef5;
+  padding: 0.3rem 0.75rem;
+  border-radius: 14px;
+}
+
+.resumeResultsWrap {
+  text-align: left;
+  max-width: 460px;
+  margin: 0 auto;
+}
