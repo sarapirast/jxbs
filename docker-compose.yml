@@ -1,0 +1,27 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: jxbs
+      POSTGRES_USER: jxbs
+      POSTGRES_PASSWORD: jxbs
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql://jxbs:jxbs@db:5432/jxbs
+      JWT_SECRET: dev-secret-change-me
+      ENABLE_SCHEDULER: "false"
+    depends_on:
+      - db
+    volumes:
+      - ./backend/data:/app/data
+
+volumes:
+  pgdata:

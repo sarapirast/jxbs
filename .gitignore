@@ -2,7 +2,7 @@
 *service-account*.json
 *credentials*.json
 
-# Python
+# Pythonkeys
 venv/
 __pycache__/
 *.pyc
@@ -22,3 +22,9 @@ data/postgres_dump.sql
 # OS cruft
 .DS_Store
 Thumbs.db
+
+
+.env.local         
+local_venv/       
+local_output/
+.firebaserc

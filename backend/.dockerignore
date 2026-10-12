@@ -1,0 +1,9 @@
+venv/
+__pycache__/
+*.pyc
+.env
+data/faiss.index
+data/faiss_ids.json
+data/bm25.pkl
+data/postgres_dump.sql
+tests/
